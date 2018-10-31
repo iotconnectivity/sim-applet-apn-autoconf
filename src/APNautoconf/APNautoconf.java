@@ -15,23 +15,22 @@
 package APNautoconf;
 
 import sim.toolkit.*;
-import sim.access.*;
 import javacard.framework.*;
 
 public class APNautoconf extends Applet implements ToolkitInterface, ToolkitConstants {
 
-
-	static byte[] cgdcont = new byte[] {'a','t','+','c','g','d','c','o','n','t','=',
-										'1',','
-										,'"','I','P','"',','
-										,'"','d','a','t','a','6','4','1','0','0','3','"'};							
-
 	private ToolkitRegistry reg;
 
-
+	// Menu text
 	static 	byte[] 	menuItemText = new byte[] {'S','E','N','D',' ','A','T',' ','C','O','M','M','A','N','D'};
 	private byte 	menuItem;
 
+	// AT command to be sent
+	// It should configure the APN, in this case "data641003" is chosen as example.
+	static byte[] cgdcont = new byte[] {'a','t','+','c','g','d','c','o','n','t','=',
+										'1',','
+										,'"','I','P','"',','
+										,'"','d','a','t','a','6','4','1','0','0','3','"'};		
 
  	/**
  	*	Constructor of the applet
@@ -73,6 +72,7 @@ public class APNautoconf extends Applet implements ToolkitInterface, ToolkitCons
 
 			if (selectedItemId == menuItem) {
 				
+				// This sends the AT command to the terminal
 				ProactiveHandler proHdlr = ProactiveHandler.getTheHandler();
 				proHdlr.init(PRO_CMD_RUN_AT_COMMAND,(byte)0,DEV_ID_ME);
 				proHdlr.appendTLV((byte)(TAG_AT_COMMAND | TAG_SET_CR), cgdcont, (short)0, (short)cgdcont.length);
